@@ -29,8 +29,13 @@ void handler(u_char * arg,const struct pcap_pkthdr * pkthdr,const u_char * packe
 
 	//IP HEADER PARSING
 	puts("+IP HEADER+");
-	printf("IP's src ip : %s\n",inet_ntoa(ip->ip_src));
-	printf("IP's dst ip : %s\n",inet_ntoa(ip->ip_dst));
+	printf("IP src : %s\n",inet_ntoa(ip->ip_src));
+	printf("IP dst : %s\n",inet_ntoa(ip->ip_dst));
+
+	//TCP PARSING
+	puts("+TCP HEADER+");
+	printf("PORT src : %5d\n",tcp->th_sport);
+	printf("PORT dst : %5d\n",tcp->th_dport);
 	puts("-----------------------------------");
 	printf("\n\n");
 }

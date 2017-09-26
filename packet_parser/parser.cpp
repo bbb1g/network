@@ -13,6 +13,7 @@ void handler(u_char * arg,const struct pcap_pkthdr * pkthdr,const u_char * packe
 			eth->ether_dhost[0],eth->ether_dhost[1],
 			eth->ether_dhost[2],eth->ether_dhost[3],
 			eth->ether_dhost[4],eth->ether_dhost[5]);
+	printf("Type : 0x%02x%02x\n",(eth->ether_type & 0xff),(eth->ether_type & 0xff00)>>8);
 }	
 int main(int argc,char * argv[],char * env[]){
 	pcap_t * handle;

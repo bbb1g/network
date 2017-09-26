@@ -10,6 +10,7 @@ void handler(u_char * arg,const struct pcap_pkthdr * pkthdr,const u_char * packe
 
 	libnet_ipv4_hdr * ip = (libnet_ipv4_hdr *)(packet + sizeof(libnet_ethernet_hdr));
 	libnet_tcp_hdr * tcp = (libnet_tcp_hdr *)((u_char *)ip+sizeof(libnet_ipv4_hdr));
+	u_char * payload;
 
 	if(eth_type != 0x0800)return;
 
@@ -36,6 +37,22 @@ void handler(u_char * arg,const struct pcap_pkthdr * pkthdr,const u_char * packe
 	puts("+TCP HEADER+");
 	printf("PORT src : %5d\n",tcp->th_sport);
 	printf("PORT dst : %5d\n",tcp->th_dport);
+
+	//PAYLOAD(DATA) PARSING
+	uint32_t length = ip->ip_len - sizeof(libnet_ipv4_hdr)
+				      - sizeof(libnet_tcp_hdr);
+	printf("PAYLOAD LENGTH : %d\n",length);
+
+	if(length>16)length=16;
+
+	payload = (u_char *)tcp + tcp->th_off;
+
+	printf("PAYLOAD(DATA) : ");
+
+	for(int i=0;i<length;i++){
+		printf("%02x",payload[i]);
+	}
+	putchar(10);
 	puts("-----------------------------------");
 	printf("\n\n");
 }
